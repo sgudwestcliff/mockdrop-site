@@ -1,117 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>DropX – Midnight Hoodie Drop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 20px;
-      color: #333;
+    :root{
+      --blue:#3b82f6;
+      --amber:#f59e0b;
+      --green:#10b981;
+      --red:#ef4444;
+      --gray:#e5e7eb;
+      --ink:#111827;
     }
-    .container {
-      max-width: 880px;
-      margin: auto;
-      background: #fff;
-      border-radius: 10px;
-      padding: 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 12px;
-    }
-    .product {
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .product img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    .info p {
-      margin: 6px 0;
-    }
-    .badge {
-      display: inline-block;
-      background: #10b981;
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-size: 0.85rem;
-    }
-    .section {
-      margin-top: 28px;
-    }
-    .meta-box {
-      background: #f0f4f8;
-      padding: 12px;
-      border-radius: 6px;
-      margin-top: 12px;
-      font-size: 0.92rem;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background: #111;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #999;
-      text-align: center;
-    }
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;margin:0;padding:20px;color:#333}
+    .container{max-width:880px;margin:auto;background:#fff;border-radius:10px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    h1{font-size:1.8rem;margin:0 0 12px}
+    .muted{font-size:.9rem;color:#666;margin:0}
+    .product{display:flex;gap:16px;margin-top:16px;align-items:flex-start}
+    .product img{width:180px;height:180px;object-fit:cover;border-radius:6px;border:1px solid #ccc}
+    .info p{margin:6px 0}
+    .badge{display:inline-block;background:var(--green);color:#fff;padding:4px 10px;border-radius:5px;font-size:.85rem;transition:background .2s}
+    .badge-okay{background:var(--green)}
+    .badge-warn{background:var(--amber)}
+    .badge-critical{background:var(--red)}
+    .section{margin-top:28px}
+    .meta-box{background:#f0f4f8;padding:12px;border-radius:6px;margin-top:12px;font-size:.92rem}
+    button{padding:10px 20px;font-size:1rem;background:#111;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:20px;transition:opacity .2s,transform .02s}
+    button:disabled{opacity:.4;cursor:not-allowed}
+    button:active{transform:translateY(1px)}
+    footer{margin-top:40px;font-size:.8rem;color:#999;text-align:center}
+    .progress-container{background:var(--gray);height:12px;border-radius:6px;overflow:hidden;margin-top:8px}
+    .progress-bar{width:0%;height:100%;background:var(--blue);transition:width .5s linear, background .2s}
+    .hidden{display:none}
+    .success{color:var(--green);font-weight:bold;margin-top:12px}
+    .error{color:var(--red);font-weight:bold;margin-top:12px}
+    .pill{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:3px 10px;font-size:.75rem}
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" role="main">
     <header>
-      <div style="font-size: 1.2rem; font-weight: bold;">DropX</div>
-      <div style="font-size: 0.9rem; color: #555;">Limited Merch Drops</div>
+      <div style="font-size:1.2rem;font-weight:bold;">DropX</div>
+      <div class="muted">Limited Merch Drops</div>
     </header>
 
     <h1>🎯 Drop Status: Midnight Drop Hoodie</h1>
-    <p style="font-size: 0.85rem; color: #666;">Generated on: August 3, 2025 – 11:42 AM PDT</p>
+    <p class="muted">Generated on: <span id="timestamp"></span></p>
 
     <div class="product">
-      <img src="https://images.unsplash.com/photo-1622567893612-a5345baa5c9a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Hoodie Front">
-      <img src="https://images.unsplash.com/photo-1512400930990-e0bc0bd809df?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Hoodie Detail">
+      <img src="https://images.unsplash.com/photo-1622567893612-a5345baa5c9a?q=80&w=774&auto=format&fit=crop" alt="Hoodie front view">
+      <img src="https://images.unsplash.com/photo-1512400930990-e0bc0bd809df?q=80&w=1740&auto=format&fit=crop" alt="Hoodie detail">
       <div class="info">
         <p><strong>Description:</strong> Limited edition heavyweight hoodie with embroidered logo.</p>
         <p><strong>Price:</strong> $79.99</p>
         <p><strong>Sizes:</strong> S, M, L, XL, 2XL</p>
-        <p><strong>Stock Available:</strong> <span class="badge">17 left</span></p>
+        <p><strong>Stock Available:</strong> <span id="stock" class="badge badge-okay">17 left</span></p>
+        <span id="low-stock-pill" class="pill hidden">Low stock</span>
       </div>
     </div>
 
-    <div class="section">
+    <div id="queue-section" class="section hidden" aria-live="polite">
       <h2>⏳ Queue Info</h2>
       <p><strong>Reserved By:</strong> user123</p>
-      <p><strong>Queue Position:</strong> 24</p>
-      <p><strong>Estimated Wait:</strong> 45 seconds</p>
+      <p><strong>Queue Position:</strong> <span id="queue-position">—</span></p>
+      <p><strong>Estimated Wait:</strong> <span id="wait-time">—</span> seconds</p>
       <p><strong>CAPTCHA Verified:</strong> ✅</p>
 
-      <div style="background: #e5e7eb; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px;">
-        <div style="width: 65%; background: #3b82f6; height: 100%;"></div>
+      <div class="progress-container" aria-label="Queue progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="progress-bar" class="progress-bar"></div>
       </div>
-      <p style="font-size: 0.85rem; margin-top: 4px;">Queue progress (45 seconds remaining)</p>
+      <p class="muted" style="margin-top:4px;">Queue progress: <span id="progress-pct">0%</span></p>
     </div>
 
     <div class="section">
@@ -126,12 +86,112 @@
     </div>
 
     <div class="section">
-      <button>Confirm Purchase</button>
+      <button id="add-to-cart">Add to Cart</button>
+      <div id="msg" class="success hidden">✅ Purchase Confirmed! Stock updated.</div>
+      <div id="err" class="error hidden">❌ Sorry, out of stock.</div>
     </div>
 
-    <footer>
-      © 2025 DropX Inc. All rights reserved. | Terms | Privacy
-    </footer>
+    <footer>© 2025 DropX Inc. All rights reserved. | Terms | Privacy</footer>
   </div>
+
+  <script>
+    // Timestamp
+    document.getElementById("timestamp").textContent = new Date().toLocaleString();
+
+    // State
+    let stock = 17;
+    const stockEl = document.getElementById("stock");
+    const pillEl = document.getElementById("low-stock-pill");
+    const addBtn = document.getElementById("add-to-cart");
+    const msg = document.getElementById("msg");
+    const err = document.getElementById("err");
+
+    // Queue elements
+    const queueSection = document.getElementById("queue-section");
+    const posEl = document.getElementById("queue-position");
+    const waitEl = document.getElementById("wait-time");
+    const bar = document.getElementById("progress-bar");
+    const pctEl = document.getElementById("progress-pct");
+
+    // Helpers
+    function updateStockBadge(){
+      stockEl.textContent = `${stock} left`;
+      stockEl.className = "badge"; // reset
+      pillEl.classList.add("hidden");
+
+      if (stock <= 0){
+        stockEl.classList.add("badge-critical");
+        addBtn.disabled = true;
+      } else if (stock <= 5){
+        stockEl.classList.add("badge-critical");
+        pillEl.textContent = "Almost gone";
+        pillEl.classList.remove("hidden");
+      } else if (stock <= 10){
+        stockEl.classList.add("badge-warn");
+        pillEl.textContent = "Low stock";
+        pillEl.classList.remove("hidden");
+      } else {
+        stockEl.classList.add("badge-okay");
+      }
+    }
+
+    function colorForProgress(p){
+      // 0-50% blue, 50-80% amber, 80-100% green
+      if (p < 50) return getComputedStyle(document.documentElement).getPropertyValue('--blue');
+      if (p < 80) return getComputedStyle(document.documentElement).getPropertyValue('--amber');
+      return getComputedStyle(document.documentElement).getPropertyValue('--green');
+    }
+
+    function simulateQueue(){
+      const position = Math.floor(Math.random()*50)+1;
+      const waitTotal = Math.floor(Math.random()*15)+8; // 8–22s
+      let remaining = waitTotal;
+      let progress = 0;
+
+      posEl.textContent = position;
+      waitEl.textContent = remaining.toString();
+      queueSection.classList.remove("hidden");
+      msg.classList.add("hidden");
+      err.classList.add("hidden");
+
+      const progressTimer = setInterval(()=>{
+        remaining--;
+        progress = Math.min(100, ((waitTotal-remaining)/waitTotal)*100);
+
+        // Update visuals
+        bar.style.width = progress.toFixed(0) + "%";
+        bar.style.background = colorForProgress(progress);
+        pctEl.textContent = Math.max(0, Math.floor(progress)) + "%";
+        waitEl.textContent = Math.max(0, remaining).toString();
+
+        // ARIA update
+        const container = bar.parentElement;
+        container.setAttribute("aria-valuenow", Math.floor(progress));
+
+        if (remaining <= 0){
+          clearInterval(progressTimer);
+          msg.classList.remove("hidden");
+        }
+      }, 1000);
+    }
+
+    // Init
+    updateStockBadge();
+
+    // Click handler
+    addBtn.addEventListener("click", ()=>{
+      if (stock <= 0){
+        err.classList.remove("hidden");
+        msg.classList.add("hidden");
+        return;
+      }
+      // Reduce stock and update UI
+      stock--;
+      updateStockBadge();
+
+      // Kick off queue simulation
+      simulateQueue();
+    });
+  </script>
 </body>
 </html>
