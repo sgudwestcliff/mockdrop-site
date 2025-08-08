@@ -6,192 +6,277 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --blue:#3b82f6;
-      --amber:#f59e0b;
-      --green:#10b981;
-      --red:#ef4444;
-      --gray:#e5e7eb;
-      --ink:#111827;
+      --blue:#3b82f6; --amber:#f59e0b; --green:#10b981; --red:#ef4444; --gray:#e5e7eb; --ink:#111827;
+      --bg:#f4f6f8; --card:#ffffff; --muted:#6b7280;
     }
-    body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;margin:0;padding:20px;color:#333}
-    .container{max-width:880px;margin:auto;background:#fff;border-radius:10px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-    h1{font-size:1.8rem;margin:0 0 12px}
-    .muted{font-size:.9rem;color:#666;margin:0}
-    .product{display:flex;gap:16px;margin-top:16px;align-items:flex-start}
-    .product img{width:180px;height:180px;object-fit:cover;border-radius:6px;border:1px solid #ccc}
-    .info p{margin:6px 0}
-    .badge{display:inline-block;background:var(--green);color:#fff;padding:4px 10px;border-radius:5px;font-size:.85rem;transition:background .2s}
+    *{box-sizing:border-box}
+    body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);margin:0;padding:20px;color:#333}
+    .container{max-width:960px;margin:auto;background:var(--card);border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .brand{font-size:1.2rem;font-weight:700}
+    .muted{color:var(--muted)}
+    h1{font-size:1.8rem;margin:8px 0 4px}
+    .sub{font-size:.9rem;margin:0 0 4px}
+    .notice{background:#fef3c7;border:1px solid #fde68a;color:#92400e;padding:10px 12px;border-radius:8px;font-size:.9rem;margin:12px 0}
+    .row{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+    .product img{width:200px;height:200px;object-fit:cover;border-radius:8px;border:1px solid #ddd}
+    .info{flex:1 1 320px}
+    .info p{margin:8px 0}
+    .badge{display:inline-block;background:var(--green);color:#fff;padding:4px 10px;border-radius:6px;font-size:.85rem;transition:background .2s}
     .badge-okay{background:var(--green)}
     .badge-warn{background:var(--amber)}
     .badge-critical{background:var(--red)}
-    .section{margin-top:28px}
-    .meta-box{background:#f0f4f8;padding:12px;border-radius:6px;margin-top:12px;font-size:.92rem}
-    button{padding:10px 20px;font-size:1rem;background:#111;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:20px;transition:opacity .2s,transform .02s}
-    button:disabled{opacity:.4;cursor:not-allowed}
-    button:active{transform:translateY(1px)}
-    footer{margin-top:40px;font-size:.8rem;color:#999;text-align:center}
+    .pill{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:3px 10px;font-size:.72rem;margin-left:6px}
+    .section{margin-top:22px}
+    label{display:block;font-size:.9rem;margin-bottom:6px}
+    select, input[type="checkbox"]{font-size:1rem}
+    .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .meta-box{background:#f0f4f8;padding:12px;border-radius:8px;margin-top:10px;font-size:.92rem}
     .progress-container{background:var(--gray);height:12px;border-radius:6px;overflow:hidden;margin-top:8px}
     .progress-bar{width:0%;height:100%;background:var(--blue);transition:width .5s linear, background .2s}
-    .hidden{display:none}
-    .success{color:var(--green);font-weight:bold;margin-top:12px}
-    .error{color:var(--red);font-weight:bold;margin-top:12px}
-    .pill{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:3px 10px;font-size:.75rem}
+    button{padding:10px 16px;font-size:1rem;background:#111;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:opacity .2s,transform .02s}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    button:active{transform:translateY(1px)}
+    .success{color:var(--green);font-weight:700;margin-top:10px}
+    .error{color:var(--red);font-weight:700;margin-top:10px}
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    .panel{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px}
+    .panel h3{margin:0 0 8px;font-size:1rem}
+    .log{height:160px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:.85rem;background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:8px;white-space:pre-wrap}
+    footer{margin-top:32px;font-size:.8rem;color:#999;text-align:center}
+    /* fake recap badge */
+    .recap{display:inline-flex;align-items:center;gap:8px;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;padding:4px 10px;border-radius:999px;font-size:.78rem}
   </style>
 </head>
 <body>
-  <div class="container" role="main">
+  <div class="container" role="main" aria-live="polite">
     <header>
-      <div style="font-size:1.2rem;font-weight:bold;">DropX</div>
+      <div class="brand">DropX</div>
       <div class="muted">Limited Merch Drops</div>
     </header>
 
-    <h1>🎯 Drop Status: Midnight Drop Hoodie</h1>
-    <p class="muted">Generated on: <span id="timestamp"></span></p>
+    <h1>🎯 Midnight Hoodie Drop</h1>
+    <p class="sub muted">Generated on: <span id="timestamp"></span> • Drop window: <span id="window"></span></p>
 
-    <div class="product">
+    <div class="notice" id="pre-drop">
+      ⏰ Queue opens in <strong><span id="countdown">—</span></strong>. Add to Cart will unlock at drop time.
+    </div>
+
+    <div class="row product">
       <img src="https://images.unsplash.com/photo-1622567893612-a5345baa5c9a?q=80&w=774&auto=format&fit=crop" alt="Hoodie front view">
-      <img src="https://images.unsplash.com/photo-1512400930990-e0bc0bd809df?q=80&w=1740&auto=format&fit=crop" alt="Hoodie detail">
+      <img src="https://images.unsplash.com/photo-1512400930990-e0bc0bd809df?q=80&w=1740&auto=format&fit=crop" alt="Hoodie detail view">
       <div class="info">
-        <p><strong>Description:</strong> Limited edition heavyweight hoodie with embroidered logo.</p>
+        <p><strong>Description:</strong> Limited edition heavyweight hoodie with embroidered chest logo.</p>
         <p><strong>Price:</strong> $79.99</p>
-        <p><strong>Sizes:</strong> S, M, L, XL, 2XL</p>
-        <p><strong>Stock Available:</strong> <span id="stock" class="badge badge-okay">17 left</span></p>
-        <span id="low-stock-pill" class="pill hidden">Low stock</span>
+        <p><strong>Sizes:</strong>
+          <label for="size" class="muted" style="margin-top:6px;">Select size to enable Add to Cart</label>
+          <select id="size" aria-label="Select size">
+            <option value="">— Select —</option>
+            <option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option>
+          </select>
+        </p>
+        <p><strong>Stock Available:</strong>
+          <span id="stock" class="badge badge-okay">17 left</span>
+          <span id="stock-pill" class="pill hidden">Low stock</span>
+        </p>
+        <div class="recap" title="Demo badge">
+          <span>CAPTCHA v2: Verified</span> <span aria-hidden="true">✅</span>
+        </div>
       </div>
     </div>
 
-    <div id="queue-section" class="section hidden" aria-live="polite">
-      <h2>⏳ Queue Info</h2>
-      <p><strong>Reserved By:</strong> user123</p>
-      <p><strong>Queue Position:</strong> <span id="queue-position">—</span></p>
-      <p><strong>Estimated Wait:</strong> <span id="wait-time">—</span> seconds</p>
-      <p><strong>CAPTCHA Verified:</strong> ✅</p>
+    <div class="section grid">
+      <div class="panel">
+        <h3>Queue & Purchase</h3>
+        <div id="queue-section" class="hidden">
+          <p><strong>Queue Position:</strong> <span id="queue-position">—</span></p>
+          <p><strong>Estimated Wait:</strong> <span id="wait-time">—</span> seconds</p>
+          <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Queue progress">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
+          <p class="muted" style="margin-top:6px;">Progress: <span id="progress-pct">0%</span></p>
+        </div>
 
-      <div class="progress-container" aria-label="Queue progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div id="progress-bar" class="progress-bar"></div>
+        <div class="controls" style="margin-top:8px;">
+          <button id="add-to-cart" disabled>Add to Cart</button>
+          <button id="reset">Reset Demo</button>
+        </div>
+        <div id="message" class="success hidden">✅ Purchase confirmed. Order ID: <span id="order-id"></span></div>
+        <div id="error" class="error hidden"></div>
       </div>
-      <p class="muted" style="margin-top:4px;">Queue progress: <span id="progress-pct">0%</span></p>
-    </div>
 
-    <div class="section">
-      <h2>🔐 Security Metadata</h2>
-      <div class="meta-box">
-        <p><strong>Drop Type:</strong> Flash Sale</p>
-        <p><strong>Throttled:</strong> Yes</p>
-        <p><strong>IP Reputation Score:</strong> 4.7</p>
-        <p><strong>Client Fingerprint:</strong> a9f7e1cbd3</p>
-        <p><strong>CAPTCHA Version:</strong> v2</p>
+      <div class="panel">
+        <h3>Security & Simulation</h3>
+        <label><input type="checkbox" id="simulate-bot"> Simulate bot user (will be challenged/blocked)</label>
+        <label><input type="checkbox" id="simulate-jitter"> Simulate network jitter</label>
+        <p class="muted" style="margin-top:8px;">
+          Our Fair Drop Policy prioritizes verified humans and prevents hoarding with per-session limits and queue fairness.
+        </p>
       </div>
     </div>
 
-    <div class="section">
-      <button id="add-to-cart">Add to Cart</button>
-      <div id="msg" class="success hidden">✅ Purchase Confirmed! Stock updated.</div>
-      <div id="err" class="error hidden">❌ Sorry, out of stock.</div>
+    <div class="section panel">
+      <h3>Event Log</h3>
+      <div id="log" class="log" aria-live="polite"></div>
     </div>
 
-    <footer>© 2025 DropX Inc. All rights reserved. | Terms | Privacy</footer>
+    <footer>© 2025 DropX Inc. All rights reserved. • Terms • Privacy</footer>
   </div>
 
   <script>
-    // Timestamp
+    // ---------- Utilities ----------
+    const $ = (id) => document.getElementById(id);
+    const log = (msg) => {
+      const ts = new Date().toLocaleTimeString();
+      $('log').textContent += `[${ts}] ${msg}\n`;
+      $('log').scrollTop = $('log').scrollHeight;
+    };
+    const fmt = (n)=> (n<10?'0':'')+n;
+
+    // ---------- Timestamp & Drop Window ----------
     document.getElementById("timestamp").textContent = new Date().toLocaleString();
+    // Demo drop window: opens 20s from now, lasts 10 mins
+    const now = new Date();
+    const dropStart = new Date(now.getTime() + 20*1000);
+    const dropEnd = new Date(now.getTime() + 10*60*1000);
+    $('window').textContent = `${dropStart.toLocaleTimeString()} – ${dropEnd.toLocaleTimeString()}`;
 
-    // State
+    function updateCountdown(){
+      const t = dropStart.getTime() - Date.now();
+      if (t <= 0){
+        $('pre-drop').style.display = 'none';
+        enableIfReady();
+        return;
+      }
+      const s = Math.ceil(t/1000);
+      const m = Math.floor(s/60);
+      $('countdown').textContent = `${m}:${fmt(s%60)}`;
+      requestAnimationFrame(updateCountdown);
+    }
+    updateCountdown();
+
+    // ---------- State ----------
     let stock = 17;
-    const stockEl = document.getElementById("stock");
-    const pillEl = document.getElementById("low-stock-pill");
-    const addBtn = document.getElementById("add-to-cart");
-    const msg = document.getElementById("msg");
-    const err = document.getElementById("err");
+    let throttled = false;
+    const stockEl = $('stock'), pillEl = $('stock-pill'), addBtn = $('add-to-cart');
+    const msg = $('message'), err = $('error');
+    const queueSec = $('queue-section'), posEl = $('queue-position'), waitEl = $('wait-time'), bar = $('progress-bar'), pctEl = $('progress-pct');
+    const simulateBot = $('simulate-bot'), simulateJitter = $('simulate-jitter');
 
-    // Queue elements
-    const queueSection = document.getElementById("queue-section");
-    const posEl = document.getElementById("queue-position");
-    const waitEl = document.getElementById("wait-time");
-    const bar = document.getElementById("progress-bar");
-    const pctEl = document.getElementById("progress-pct");
-
-    // Helpers
+    // ---------- Stock Badge Logic ----------
     function updateStockBadge(){
       stockEl.textContent = `${stock} left`;
-      stockEl.className = "badge"; // reset
-      pillEl.classList.add("hidden");
+      stockEl.className = "badge";
+      pillEl.classList.add('hidden');
 
       if (stock <= 0){
-        stockEl.classList.add("badge-critical");
-        addBtn.disabled = true;
+        stockEl.classList.add('badge-critical'); addBtn.disabled = true;
       } else if (stock <= 5){
-        stockEl.classList.add("badge-critical");
-        pillEl.textContent = "Almost gone";
-        pillEl.classList.remove("hidden");
+        stockEl.classList.add('badge-critical'); pillEl.textContent = "Almost gone"; pillEl.classList.remove('hidden');
       } else if (stock <= 10){
-        stockEl.classList.add("badge-warn");
-        pillEl.textContent = "Low stock";
-        pillEl.classList.remove("hidden");
+        stockEl.classList.add('badge-warn'); pillEl.textContent = "Low stock"; pillEl.classList.remove('hidden');
       } else {
-        stockEl.classList.add("badge-okay");
+        stockEl.classList.add('badge-okay');
       }
     }
+    updateStockBadge();
 
+    // ---------- Size Picker / Enablement ----------
+    function enableIfReady(){
+      const size = $('size').value;
+      const inWindow = Date.now() >= dropStart.getTime() && Date.now() <= dropEnd.getTime();
+      addBtn.disabled = !(size && inWindow && stock > 0);
+    }
+    $('size').addEventListener('change', enableIfReady);
+
+    // ---------- Progress Color ----------
     function colorForProgress(p){
-      // 0-50% blue, 50-80% amber, 80-100% green
       if (p < 50) return getComputedStyle(document.documentElement).getPropertyValue('--blue');
       if (p < 80) return getComputedStyle(document.documentElement).getPropertyValue('--amber');
       return getComputedStyle(document.documentElement).getPropertyValue('--green');
     }
 
+    // ---------- Queue Simulation ----------
     function simulateQueue(){
       const position = Math.floor(Math.random()*50)+1;
       const waitTotal = Math.floor(Math.random()*15)+8; // 8–22s
       let remaining = waitTotal;
       let progress = 0;
 
+      queueSec.classList.remove('hidden');
       posEl.textContent = position;
-      waitEl.textContent = remaining.toString();
-      queueSection.classList.remove("hidden");
-      msg.classList.add("hidden");
-      err.classList.add("hidden");
+      waitEl.textContent = remaining;
+      log(`Joined queue. Position ${position}, ETA ${remaining}s`);
 
-      const progressTimer = setInterval(()=>{
-        remaining--;
-        progress = Math.min(100, ((waitTotal-remaining)/waitTotal)*100);
-
-        // Update visuals
-        bar.style.width = progress.toFixed(0) + "%";
-        bar.style.background = colorForProgress(progress);
-        pctEl.textContent = Math.max(0, Math.floor(progress)) + "%";
-        waitEl.textContent = Math.max(0, remaining).toString();
-
-        // ARIA update
-        const container = bar.parentElement;
-        container.setAttribute("aria-valuenow", Math.floor(progress));
-
-        if (remaining <= 0){
-          clearInterval(progressTimer);
-          msg.classList.remove("hidden");
+      const tick = ()=>{
+        let delay = 1000;
+        if (simulateJitter.checked){
+          delay = 600 + Math.random()*1000; // 0.6–1.6s jitter
         }
-      }, 1000);
+        setTimeout(()=>{
+          remaining = Math.max(0, remaining-1);
+          progress = Math.min(100, ((waitTotal-remaining)/waitTotal)*100);
+          bar.style.width = progress.toFixed(0) + '%';
+          bar.style.background = colorForProgress(progress);
+          pctEl.textContent = Math.floor(progress) + '%';
+          waitEl.textContent = remaining.toString();
+          bar.parentElement.setAttribute('aria-valuenow', Math.floor(progress));
+          if (remaining > 0) tick();
+          else finalizePurchase();
+        }, delay);
+      };
+      tick();
     }
 
-    // Init
-    updateStockBadge();
-
-    // Click handler
-    addBtn.addEventListener("click", ()=>{
-      if (stock <= 0){
-        err.classList.remove("hidden");
-        msg.classList.add("hidden");
+    // ---------- Purchase Finalization ----------
+    function finalizePurchase(){
+      if (simulateBot.checked){
+        err.classList.remove('hidden'); err.textContent = '⚠️ Suspicious activity detected. Challenge required; purchase blocked.';
+        msg.classList.add('hidden');
+        log('Bot-like behavior flagged. Blocking checkout.');
         return;
       }
-      // Reduce stock and update UI
-      stock--;
-      updateStockBadge();
+      const orderId = 'ORD-' + Math.random().toString(36).slice(2,8).toUpperCase();
+      $('order-id').textContent = orderId;
+      msg.classList.remove('hidden');
+      err.classList.add('hidden');
+      log(`Purchase confirmed. Order ${orderId}`);
+    }
 
-      // Kick off queue simulation
+    // ---------- Throttle / Rate limit ----------
+    function throttleClick(ms=1500){
+      throttled = true; addBtn.disabled = true;
+      setTimeout(()=>{ throttled = false; enableIfReady(); }, ms);
+    }
+
+    // ---------- Button Handlers ----------
+    addBtn.addEventListener('click', ()=>{
+      if (throttled) return;
+      if (stock <= 0){ err.classList.remove('hidden'); err.textContent = '❌ Sorry, out of stock.'; return; }
+
+      // decrement stock
+      const chosen = $('size').value || '(none)';
+      stock--; updateStockBadge(); enableIfReady();
+      msg.classList.add('hidden'); err.classList.add('hidden');
+      log(`Add to Cart clicked. Size ${chosen}. Stock now ${stock}.`);
+
       simulateQueue();
+      throttleClick(); // basic anti-spam
     });
+
+    $('reset').addEventListener('click', ()=>{
+      stock = 17; updateStockBadge(); enableIfReady();
+      msg.classList.add('hidden'); err.classList.add('hidden');
+      queueSec.classList.add('hidden');
+      bar.style.width = '0%'; pctEl.textContent = '0%';
+      $('size').value = '';
+      simulateBot.checked = false; simulateJitter.checked = false;
+      log('Demo reset.');
+    });
+
+    // safety: keep enabling button when window opens
+    setInterval(enableIfReady, 500);
   </script>
 </body>
 </html>
