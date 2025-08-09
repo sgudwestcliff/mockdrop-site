@@ -1,199 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>DropX – Midnight Hoodie Drop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 20px;
-      color: #333;
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#333;
+      --muted:#6b7280;
+      --brand:#111827;
+      --ok:#10b981;
+      --bad:#dc2626;
+      --accent:#3b82f6;
+      --border:#e5e7eb;
+      --shadow:0 2px 12px rgba(0,0,0,.08);
+      --radius:12px;
+      --gap:18px;
+      --container:1160px;
     }
-    .container {
-      max-width: 880px;
-      margin: auto;
-      background: #fff;
-      border-radius: 10px;
-      padding: 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    *{box-sizing:border-box}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      margin:0;
+      padding:24px;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
+    .container{
+      max-width:var(--container);
+      margin:auto;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+      opacity:0;
+      transform: translateY(8px);
+      animation: fadeIn 500ms ease-out forwards;
     }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 12px;
+    @keyframes fadeIn{
+      to{opacity:1; transform:none;}
     }
-    .product {
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:var(--gap); margin-bottom:22px;
     }
-    .product img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    .brand{font-weight:700;font-size:1.2rem}
+    .muted{color:var(--muted)}
+    h1{font-size:1.9rem;margin:.2rem 0 .6rem}
+    .meta{font-size:.9rem;color:var(--muted)}
+
+    /* product grid */
+    .product-grid{
+      display:grid; grid-template-columns: 360px 1fr; gap: var(--gap); align-items:start;
     }
-    .info p {
-      margin: 6px 0;
+    .gallery{
+      display:grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      background:#fafafa; padding:10px; border-radius:10px; border:1px solid var(--border);
     }
-    .badge {
-      display: inline-block;
-      background: #10b981;
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-size: 0.85rem;
+    .gallery img{
+      width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:8px; border:1px solid #d1d5db;
+      transition: transform 150ms ease;
     }
-    .section {
-      margin-top: 28px;
+    .gallery img:hover{ transform: scale(1.02); }
+    .details p{margin:.35rem 0}
+    .badge{
+      display:inline-block; background:var(--ok); color:#fff; padding:3px 10px; border-radius:999px; font-size:.85rem;
+      transition: transform 120ms ease;
     }
-    .meta-box {
-      background: #f0f4f8;
-      padding: 12px;
-      border-radius: 6px;
-      margin-top: 12px;
-      font-size: 0.92rem;
+    .badge.pulse{
+      animation: pulse 700ms ease-in-out 2;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background: #111;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 20px;
+    @keyframes pulse{
+      0%{transform: scale(1)}
+      50%{transform: scale(1.06)}
+      100%{transform: scale(1)}
     }
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #999;
-      text-align: center;
+    .ok{color:var(--ok)}
+    .bad{color:var(--bad)}
+
+    /* cards row */
+    .cards{ display:grid; grid-template-columns: 1fr 380px; gap: var(--gap); margin-top:22px; }
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; box-shadow: var(--shadow);
     }
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin-top: 10px;
-      font-family: monospace;
-      font-size: 0.85rem;
+    .section-title{margin:.2rem 0 10px;font-size:1.1rem}
+
+    .progress-outer{ background:#e5e7eb; height:12px; border-radius:8px; overflow:hidden; margin-top:6px }
+    .progress-inner{
+      width:0%; height:100%; background: linear-gradient(90deg, #60a5fa, #3b82f6);
+      transition: width 300ms ease; /* smooth width animation */
+    }
+    .note{font-size:.85rem;color:var(--muted)}
+
+    button{
+      padding:10px 18px; background:var(--brand); color:#fff; border:0; border-radius:8px; cursor:pointer;
+      transform: translateY(0); transition: transform 80ms ease, opacity 200ms ease, box-shadow 200ms ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    }
+    button:active{ transform: translateY(1px); }
+    button[disabled]{
+      opacity:.6; cursor:not-allowed; box-shadow:none;
+    }
+    .btn-soft{
+      background:#374151;
+    }
+
+    /* event log */
+    .log{ margin-top:20px }
+    textarea{
+      width:100%; height:160px; margin-top:8px; border-radius:8px; border:1px solid var(--border);
+      padding:10px; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.9rem
+    }
+
+    /* responsive */
+    @media (max-width: 1000px){ .cards{ grid-template-columns: 1fr } }
+    @media (max-width: 820px){
+      .product-grid{ grid-template-columns: 1fr }
+      .gallery{ grid-template-columns: 1fr 1fr }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div style="font-size: 1.2rem; font-weight: bold;">DropX</div>
-      <div style="font-size: 0.9rem; color: #555;">Limited Merch Drops</div>
+      <div class="brand">DropX</div>
+      <div class="muted">Limited Merch Drops</div>
     </header>
 
-    <h1>🎯 Drop Status: Midnight Drop Hoodie</h1>
-    <p style="font-size: 0.85rem; color: #666;">Generated on: August 9, 2025 – 04:06 AM PDT</p>
+    <h1>🎯 Midnight Hoodie Drop</h1>
+    <div class="meta">Generated: Aug 9, 2025 • Drop window: 4:07–4:16 AM</div>
 
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1622567893612-a5345baa5c9a?q=80&w=774&auto=format&fit=crop" alt="Hoodie Front">
-      <img src="https://images.unsplash.com/photo-1512400930990-e0bc0bd809df?q=80&w=1740&auto=format&fit=crop" alt="Hoodie Detail">
-      <div class="info">
-        <p><strong>Description:</strong> Limited edition heavyweight hoodie with embroidered logo.</p>
+    <!-- Product area -->
+    <section class="product-grid">
+      <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1622567893612-a5345baa5c9a?q=80&w=774&auto=format&fit=crop" alt="Front">
+        <img src="https://images.unsplash.com/photo-1512400930990-e0bc0bd809df?q=80&w=1740&auto=format&fit=crop" alt="Detail">
+      </div>
+
+      <div class="details">
+        <p><strong>Description:</strong> Limited edition heavyweight hoodie with embroidered chest logo.</p>
         <p><strong>Price:</strong> $79.99</p>
-        <p><strong>Sizes:</strong> 
-          <select>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
+        <p><strong>Size:</strong>
+          <select id="sizeSel">
+            <option>S</option><option>M</option><option>L</option><option>XL</option>
             <option selected>2XL</option>
           </select>
         </p>
         <p><strong>Stock Available:</strong> <span class="badge" id="stockCount">17 left</span></p>
+        <p class="note">CAPTCHA Status: <span id="captchaStatus" class="ok">✅ Verified</span></p>
       </div>
-    </div>
+    </section>
 
-    <div class="section">
-      <h2>⏳ Queue Info</h2>
-      <p><strong>Queue Position:</strong> 47</p>
-      <p><strong>Estimated Wait:</strong> 0 seconds</p>
-      <p><strong>CAPTCHA Status:</strong> <span id="captchaStatus" style="color:#10b981;">✅ Verified</span></p>
-
-      <div style="background: #e5e7eb; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px;">
-        <div style="width: 100%; background: #3b82f6; height: 100%;"></div>
+    <!-- Two-column cards: Queue & Security -->
+    <section class="cards">
+      <div class="card">
+        <h3 class="section-title">⏳ Queue & Purchase</h3>
+        <p><strong>Queue Position:</strong> <span id="qpos">47</span></p>
+        <p><strong>Estimated Wait:</strong> <span id="qeta">–</span></p>
+        <div class="progress-outer"><div class="progress-inner" id="qbar"></div></div>
+        <p class="note" id="qnote">Preparing queue...</p>
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button id="addToCart" disabled>Add to Cart</button>
+          <button id="reset" class="btn-soft">Reset Demo</button>
+        </div>
+        <div id="purchaseMessage" style="margin-top:10px;color:var(--ok);display:none;">✅ Purchase confirmed. Order ID: #12345</div>
+        <div id="blockMessage" style="margin-top:10px;color:var(--bad);display:none;">⚠️ Suspicious activity detected. Challenge required and checkout blocked.</div>
       </div>
-      <p style="font-size: 0.85rem; margin-top: 4px;">Queue progress complete</p>
-    </div>
 
-    <div class="section">
-      <h2>🔐 Security & Simulation</h2>
-      <div class="meta-box">
-        <label><input type="checkbox" id="simulateBot"> Simulate bot user (will be challenged/blocked)</label><br>
-        <label><input type="checkbox"> Simulate network jitter</label>
-        <p style="font-size: 0.85rem;">Our Fair Drop Policy prioritizes verified humans and prevents hoarding with per-session limits and queue fairness.</p>
+      <div class="card">
+        <h3 class="section-title">🔐 Security & Simulation</h3>
+        <label><input type="checkbox" id="simulateBot"> Simulate bot user</label><br/>
+        <label><input type="checkbox" id="simulateJitter"> Simulate network jitter</label>
+        <p class="note">Identification and filtering are performed by Cloudflare bot management with queue fairness applied in the app layer.</p>
       </div>
-    </div>
+    </section>
 
-    <div class="section">
-      <button id="addToCart">Add to Cart</button>
-      <div id="purchaseMessage" style="margin-top:10px; color:green; display:none;">✅ Purchase confirmed. Order ID: #12345</div>
-    </div>
-
-    <div class="section">
-      <h2>📝 Event Log</h2>
+    <!-- Event log -->
+    <section class="log">
+      <h3 class="section-title">📝 Event Log</h3>
       <textarea id="eventLog" readonly></textarea>
-    </div>
+    </section>
 
-    <footer>
-      © 2025 DropX Inc. All rights reserved. | Terms | Privacy
+    <footer class="muted" style="text-align:center;margin-top:18px">
+      © 2025 DropX Inc. All rights reserved. · Terms · Privacy
     </footer>
   </div>
 
   <script>
-    const simulateBotCheckbox = document.querySelector('#simulateBot');
-    const captchaStatus = document.querySelector('#captchaStatus');
-    const purchaseMessage = document.querySelector('#purchaseMessage');
-    const addToCartBtn = document.querySelector('#addToCart');
-    const stockCount = document.querySelector('#stockCount');
-    const eventLog = document.querySelector('#eventLog');
+    // Elements
+    const simulateBot = document.getElementById('simulateBot');
+    const simulateJitter = document.getElementById('simulateJitter');
+    const captchaStatus = document.getElementById('captchaStatus');
+    const purchaseMsg = document.getElementById('purchaseMessage');
+    const blockMsg = document.getElementById('blockMessage');
+    const addBtn = document.getElementById('addToCart');
+    const resetBtn = document.getElementById('reset');
+    const stockEl = document.getElementById('stockCount');
+    const logEl = document.getElementById('eventLog');
+    const qposEl = document.getElementById('qpos');
+    const qetaEl = document.getElementById('qeta');
+    const qbar = document.getElementById('qbar');
+    const qnote = document.getElementById('qnote');
+
+    // State
     let stock = 17;
+    let queueTotal = 47;   // starting position
+    let queueTime = 7000;  // ms to complete the queue animation
+    let queueStart;
 
-    simulateBotCheckbox.addEventListener('change', () => {
-      if (simulateBotCheckbox.checked) {
-        captchaStatus.textContent = '❌ Not Verified';
-        captchaStatus.style.color = '#dc2626';
-        purchaseMessage.style.display = 'none';
-      } else {
-        captchaStatus.textContent = '✅ Verified';
-        captchaStatus.style.color = '#10b981';
-      }
-    });
-
-    addToCartBtn.addEventListener('click', () => {
-      if (stock <= 0) {
-        logEvent('Stock depleted. Cannot add to cart.');
-        return;
-      }
-      stock--;
-      stockCount.textContent = `${stock} left`;
-
-      if (simulateBotCheckbox.checked) {
-        logEvent(`Bot-like behavior flagged. Blocking checkout.`);
-        purchaseMessage.style.display = 'none';
-      } else {
-        purchaseMessage.style.display = 'block';
-        logEvent(`Purchase confirmed. Stock now ${stock}.`);
-      }
-    });
-
-    function logEvent(msg) {
-      const timestamp = new Date().toLocaleTimeString();
-      eventLog.value += `[${timestamp}] ${msg}\n`;
-      eventLog.scrollTop = eventLog.scrollHeight;
+    function log(msg){
+      const t = new Date().toLocaleTimeString();
+      logEl.value += `[${t}] ${msg}\n`;
+      logEl.scrollTop = logEl.scrollHeight;
     }
+
+    function setCaptcha(verified){
+      captchaStatus.textContent = verified ? '✅ Verified' : '❌ Not Verified';
+      captchaStatus.className = verified ? 'ok' : 'bad';
+    }
+
+    function enablePurchaseUI(){
+      addBtn.disabled = false;
+      addBtn.style.boxShadow = '0 4px 12px rgba(59,130,246,.35)';
+      qnote.textContent = 'Queue complete. You may proceed.';
+    }
+
+    function animateQueue(){
+      // reset UI
+      addBtn.disabled = true;
+      addBtn.style.boxShadow = 'none';
+      qbar.style.width = '0%';
+      qnote.textContent = 'Joining queue...';
+      qetaEl.textContent = 'calculating...';
+      qposEl.textContent = String(queueTotal);
+
+      // start animation
+      const start = performance.now();
+      queueStart = start;
+      const duration = queueTime;
+
+      function step(now){
+        const elapsed = now - start;
+        const p = Math.min(elapsed / duration, 1); // 0..1
+        const percent = Math.floor(p * 100);
+        qbar.style.width = percent + '%';
+
+        // position count down and eta
+        const pos = Math.max(0, Math.ceil((1 - p) * queueTotal));
+        qposEl.textContent = String(pos);
+        const etaMs = Math.max(0, duration - elapsed);
+        qetaEl.textContent = (etaMs/1000).toFixed(0) + ' seconds';
+
+        if (p < 1){
+          requestAnimationFrame(step);
+        } else {
+          qbar.style.width = '100%';
+          qetaEl.textContent = '0 seconds';
+          qnote.textContent = 'Finalizing gate checks...';
+          setTimeout(() => {
+            qnote.textContent = 'Queue complete. You may proceed.';
+            enablePurchaseUI();
+            log('Queue completed. User admitted.');
+          }, 350);
+        }
+      }
+      requestAnimationFrame(step);
+      log('Queue animation started.');
+    }
+
+    function pulseStockBadge(){
+      stockEl.classList.remove('pulse');
+      void stockEl.offsetWidth; // restart animation
+      stockEl.classList.add('pulse');
+    }
+
+    simulateBot.addEventListener('change', () => {
+      setCaptcha(!simulateBot.checked);
+      purchaseMsg.style.display = 'none';
+      blockMsg.style.display = 'none';
+      log(simulateBot.checked ? 'Bot simulation enabled.' : 'Bot simulation disabled.');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      stock = 17; stockEl.textContent = `${stock} left`;
+      setCaptcha(true);
+      purchaseMsg.style.display = 'none';
+      blockMsg.style.display = 'none';
+      queueTotal = 47;
+      animateQueue();
+      log('Demo reset.');
+    });
+
+    addBtn.addEventListener('click', () => {
+      if (stock <= 0){ log('Stock depleted. Cannot add to cart.'); return; }
+
+      const wait = simulateJitter.checked ? Math.floor(Math.random()*1000)+250 : 150;
+
+      setTimeout(() => {
+        if (simulateBot.checked){
+          setCaptcha(false);
+          purchaseMsg.style.display = 'none';
+          blockMsg.style.display = 'block';
+          log('Bot-like behavior flagged. Blocking checkout.');
+        } else {
+          stock--;
+          stockEl.textContent = `${stock} left`;
+          pulseStockBadge();
+          purchaseMsg.style.display = 'block';
+          blockMsg.style.display = 'none';
+          log(`Add to Cart confirmed. Stock now ${stock}.`);
+        }
+      }, wait);
+    });
+
+    // kick things off
+    setCaptcha(true);
+    animateQueue();
+    log('Demo initialized.');
   </script>
 </body>
 </html>
